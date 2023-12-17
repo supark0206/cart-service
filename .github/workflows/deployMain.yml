@@ -65,4 +65,4 @@ jobs:
         port: ${{ secrets.AWS_SSH_PORT }}
         script_stop: true
         script: |
-          sudo bash ./run.sh ${{ env.IMAGE_TAG }}
+          sudo bash ./run.sh ${{ env.IMAGE_TAG }} ${{ secrets.ECR_ACCESS_KEY_ID }} ${{ secrets.ECR_SECRET_ACCESS_KEY }} ${{ secrets.IMG_REPO }}

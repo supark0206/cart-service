@@ -1,0 +1,68 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  IMAGE_TAG : main-${{ github.run_number }}
+  RESOURCE_PATH : src/main/resources/application.yml
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check Out Repo
+      uses: actions/checkout@v2
+
+    - name: Set yml file
+      uses: microsoft/variable-substitution@v1
+      with:
+        files: ${{ env.RESOURCE_PATH }}
+      env:
+        spring.datasource.url: ${{ secrets.RDS_HOST }}
+        spring.datasource.username: ${{ secrets.RDS_USERNAME }}
+        spring.datasource.password: ${{ secrets.RDS_PASSWORD }}
+        jwt.secret: ${{ secrets.JWT_KEY }}
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v2
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Build with Gradle
+      run: ./gradlew build -x test
+
+    - name: Build Docker Image
+      run: docker build -t ${{ secrets.IMG_REPO }}:${{ env.IMAGE_TAG }} .
+
+    - name: Configure AWS credentials for ECR
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.ECR_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.ECR_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-2
+
+    - name: Login to Amazon ECR
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Push Image to Amazon ECR
+      run: |
+        docker push ${{ secrets.IMG_REPO }}:${{ env.IMAGE_TAG }}
+
+    - name: SSH Commands
+      uses: appleboy/ssh-action@v0.1.6
+      with:
+        host: ${{ secrets.AWS_SSH_HOST }}
+        username: ${{ secrets.AWS_SSH_USERNAME }}
+        key: ${{ secrets.AWS_SSH_KEY }}
+        port: ${{ secrets.AWS_SSH_PORT }}
+        script_stop: true
+        script: |
+          sudo bash ./run.sh ${{ env.IMAGE_TAG }}

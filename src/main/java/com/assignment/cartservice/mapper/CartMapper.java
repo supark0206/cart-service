@@ -10,8 +10,16 @@ import java.util.List;
 @Mapper
 public interface CartMapper {
 
+    //장바구니 등록
     int save(@Param("cartDto") CartDto cartDto);
 
+    //장바구니 전체 조회
     List<CartResponse> cartAll(@Param("email") String email);
+
+    //장바구니 선택 삭제
+    int delete(@Param("userInfoId") int userInfoId, @Param("cartIdList") List<Integer> cartIdList);
+
+    //장바구니 전체 삭제
+    int deleteAll(@Param("userInfoId") int userInfoId);
 
 }

@@ -26,10 +26,10 @@ public class UserController {
     @PostMapping("/join")
     public ResponseEntity<ResultResponse> join(@Valid @RequestBody UserInfo userInfo) {
 
-        int id = userService.join(userInfo);
+        int result = userService.join(userInfo);
         String message = "회원가입에 성공하였습니다.";
 
-        return ResponseEntity.ok(new ResultResponse(id,message));
+        return ResponseEntity.ok(new ResultResponse(result, message));
     }
 
     @PostMapping("/login")
@@ -40,21 +40,6 @@ public class UserController {
 
         return userService.login(memberId, password);
     }
-
-    @GetMapping("/user/find")
-    public String email(@RequestParam String email) {
-
-        System.out.println("email = " + email);
-
-        UserInfo userInfo = userMapper.findByEmail(email).orElseThrow(
-                ()-> new CustomException(ErrorCode.NOT_FOUND)
-        );
-
-        String result = userInfo.getName() + " || " + userInfo.getEmail();
-
-        return result;
-    }
-
 
 
 }

@@ -2,7 +2,6 @@ package com.assignment.cartservice.controller;
 
 import com.assignment.cartservice.config.annotation.LoginUser;
 import com.assignment.cartservice.dto.CartDto;
-import com.assignment.cartservice.dto.ProductDto;
 import com.assignment.cartservice.dto.response.CartResponse;
 import com.assignment.cartservice.dto.response.ResultResponse;
 import com.assignment.cartservice.entity.User.CustomUserDetails;
@@ -25,10 +24,10 @@ public class CartController {
 
         cartDto.setUserInfoId(customUserDetails.getUserInfo().getId());
 
-        int id = cartService.save(cartDto);
+        int result = cartService.save(cartDto);
         String message = "장바구니 등록에 성공하였습니다.";
 
-        return ResponseEntity.ok(new ResultResponse(id,message));
+        return ResponseEntity.ok(new ResultResponse(result,message));
     }
 
 
@@ -40,7 +39,20 @@ public class CartController {
     }
 
     @DeleteMapping("")
-    public String save(){
-        return "test";
+    public ResponseEntity<ResultResponse> delete(@LoginUser CustomUserDetails customUserDetails, @RequestBody List<Integer> cartIdList) {
+
+        int result = cartService.delete(customUserDetails.getUserInfo().getId(),cartIdList);
+        String message = "장바구니 상품 삭제에 성공하였습니다.";
+
+        return ResponseEntity.ok(new ResultResponse(result,message));
+    }
+
+    @DeleteMapping("/all")
+    public ResponseEntity<ResultResponse> deleteAll(@LoginUser CustomUserDetails customUserDetails) {
+
+        int result = cartService.deleteAll(customUserDetails.getUserInfo().getId());
+        String message = "장바구니에서 " +result+ "개의 상품 삭제에 성공하였습니다.";
+
+        return ResponseEntity.ok(new ResultResponse(result,message));
     }
 }

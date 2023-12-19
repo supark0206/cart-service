@@ -20,23 +20,15 @@ public class ProductController {
 
     private final ProductService productService;
 
-    /*
-    @PostMapping("")
-    public List<ProductDto> productDtoList() {
-
-        return me;
-    }
-    */
-
     @PostMapping("")
     public ResponseEntity<ResultResponse> save(@LoginUser CustomUserDetails customUserDetails, @RequestBody ProductDto productDto) {
 
         productDto.setUserInfoId(customUserDetails.getUserInfo().getId());
 
-        int id = productService.save(productDto);
+        int result = productService.save(productDto);
         String message = "상품 등록에 성공하였습니다.";
 
-        return ResponseEntity.ok(new ResultResponse(id,message));
+        return ResponseEntity.ok(new ResultResponse(result,message));
     }
 
     @GetMapping("")

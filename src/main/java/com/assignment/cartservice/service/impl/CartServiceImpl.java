@@ -26,15 +26,19 @@ public class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
-    public int save(CartDto cartDto) {
+    public int saveOrUpdate(CartDto cartDto) {
 
-        ProductResponse cartProduct = productMapper.findById(cartDto.getProductId()).orElseThrow(
+        int result;
+
+        productMapper.findById(cartDto.getProductId()).orElseThrow(
                 () -> new CustomException(ErrorCode.PRODUCT_NOT_FOUND)
         );
 
-        validateStockError(cartDto, cartProduct);
-
-        int result = cartMapper.save(cartDto);
+        if (cartMapper.findByUserInfoAndProduct(cartDto) == 0) {
+            result = cartMapper.save(cartDto);
+        } else {
+            result = cartMapper.update(cartDto);
+        }
 
         if (result == 0) {
             throw new CustomException(ErrorCode.CART_SAVE_ERROR);
@@ -73,11 +77,5 @@ public class CartServiceImpl implements CartService {
         return result;
     }
 
-    //장바구니에 담는 개수 초과시
-    private void validateStockError(CartDto cartDto, ProductResponse cartProduct) {
-        if(cartDto.getStock() > cartProduct.getStock()){
-            throw new CustomException(ErrorCode.CART_STOCK_ERROR);
-        }
-    }
 
 }

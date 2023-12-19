@@ -4,12 +4,31 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.assignment.cartservice.mapper.CartMapper">
 
+
+
+
     <!-- 장바구니 등록 -->
     <insert id="save" parameterType="CartDto">
         INSERT
         INTO cart( userInfo_id, product_id, stock)
         VALUES ( #{cartDto.userInfoId}, #{cartDto.productId}, #{cartDto.stock} )
     </insert>
+
+    <!-- 장바구니 수정 -->
+    <update id="update" parameterType="CartDto">
+        UPDATE cart
+        SET stock = stock + #{cartDto.stock}
+        WHERE userInfo_id = #{cartDto.userInfoId}
+        AND product_id = #{cartDto.productId}
+    </update>
+
+    <!-- 장바구니 중복 상품 확인 -->
+    <select id="findByUserInfoAndProduct" resultType="int" parameterType="CartDto">
+        SELECT count(*)
+        FROM cart c
+        WHERE userInfo_id = #{cartDto.userInfoId}
+        AND product_id = #{cartDto.productId}
+    </select>
 
     <!-- 장바구니 전체 조회 -->
     <select id="cartAll" resultType="CartResponse" parameterType="String">

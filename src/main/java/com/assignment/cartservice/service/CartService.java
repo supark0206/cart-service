@@ -9,7 +9,7 @@ import java.util.List;
 public interface CartService {
 
     //장바구니 등록
-    int save(CartDto cartDto);
+    int saveOrUpdate(CartDto cartDto);
 
     //장바구니 리스트
     List<CartResponse> cartResponseList(String email);

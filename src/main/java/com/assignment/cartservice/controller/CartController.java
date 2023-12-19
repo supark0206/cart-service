@@ -20,11 +20,11 @@ public class CartController {
     private final CartService cartService;
 
     @PostMapping("")
-    public ResponseEntity<ResultResponse> save(@LoginUser CustomUserDetails customUserDetails, @RequestBody CartDto cartDto) {
+    public ResponseEntity<ResultResponse> saveOrUpdate(@LoginUser CustomUserDetails customUserDetails, @RequestBody CartDto cartDto) {
 
         cartDto.setUserInfoId(customUserDetails.getUserInfo().getId());
 
-        int result = cartService.save(cartDto);
+        int result = cartService.saveOrUpdate(cartDto);
         String message = "장바구니 등록에 성공하였습니다.";
 
         return ResponseEntity.ok(new ResultResponse(result,message));

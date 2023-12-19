@@ -13,12 +13,12 @@ public class CartDto {
 
     private int id;
 
-    //user id
+    /** user FK */
     private int userInfoId;
 
-    //product id
+    /** product FK */
     private int productId;
 
-    //장바구니에 담은 수량
+    /** 장바구니 수량 */
     private int stock;
 }

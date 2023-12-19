@@ -1,14 +1,12 @@
 package com.assignment.cartservice.service;
 
 import com.assignment.cartservice.dto.ProductDto;
-import com.assignment.cartservice.dto.SearchPaginationDto;
-import com.assignment.cartservice.dto.response.ProductResponse;
-
-import java.util.List;
+import com.assignment.cartservice.dto.ProductSearchDto;
+import com.assignment.cartservice.dto.response.ProductPage;
 
 public interface ProductService {
 
     int save(ProductDto productDto);
 
-    List<ProductResponse> productAll();
+    ProductPage productSearchPage(ProductSearchDto productSearchDto);
 }

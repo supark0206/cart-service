@@ -2,6 +2,7 @@ package com.assignment.cartservice.controller;
 
 import com.assignment.cartservice.config.annotation.LoginUser;
 import com.assignment.cartservice.dto.*;
+import com.assignment.cartservice.dto.response.ProductPage;
 import com.assignment.cartservice.dto.response.ProductResponse;
 import com.assignment.cartservice.dto.response.ResultResponse;
 import com.assignment.cartservice.entity.User.CustomUserDetails;
@@ -39,8 +40,18 @@ public class ProductController {
     }
 
     @GetMapping("")
-    public List<ProductResponse> productDtoList() {
-        return productService.productAll();
+    public ProductPage productSearchPage(@RequestParam int pageNum, @RequestParam int pageSize,
+                                         @RequestParam String type, @RequestParam String keyword) {
+
+        ProductSearchDto productSearchDto =
+                ProductSearchDto.builder()
+                        .pageNum(pageNum)
+                        .pageSize(pageSize)
+                        .type(type)
+                        .keyword(keyword)
+                        .build();
+
+        return productService.productSearchPage(productSearchDto);
     }
 
 }

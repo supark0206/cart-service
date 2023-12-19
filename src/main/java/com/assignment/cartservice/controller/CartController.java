@@ -38,4 +38,9 @@ public class CartController {
         return cartService.cartResponseList(customUserDetails.getUsername());
 
     }
+
+    @DeleteMapping("")
+    public String save(){
+        return "test";
+    }
 }

@@ -15,21 +15,21 @@ public class ProductDto {
 
     private int id;
 
-    //userInfo FK
+    /** userInfo Fk */
     private int userInfoId;
 
-    //이름
+    /** 이름 */
     private String name;
 
-    //가격
+    /** 가격 */
     private int price;
 
-    //상품 설명
+    /** 상품 설명 */
     private String content;
 
-    //상품 재고
+    /** 상품 재고 */
     private int stock;
 
-    //상품 등록 시간
+    /** 상품 등록 시간 */
     private LocalDateTime uploadDate;
 }

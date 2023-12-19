@@ -18,7 +18,9 @@ spring :
 
 logging.level:
   org.apache.ibatis: debug
-# org.hibernate.type: trace
+  com.cartservice: debug
+  jdbc.sqlonly: info
+
 
 jwt:
   secret: ${JWT_KEY}

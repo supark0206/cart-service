@@ -22,7 +22,38 @@
     <select id="findById" resultType="ProductResponse" parameterType="int">
         SELECT p.id, u.name as 'username', p.name, p.price, p.content, p.stock, p.upload_date
         FROM product p
-                 INNER JOIN userInfo u ON p.userInfo_id = u.id
+             INNER JOIN userInfo u ON p.userInfo_id = u.id
         where p.id = #{id}
     </select>
+
+    <!-- 페이징을 위한 상품 카운트 -->
+    <select id="searchCountProduct" resultType="int" parameterType="ProductSearchDto">
+        SELECT count(*)
+        FROM product
+        <where>
+            <if test="productSearchDto.type == 'name'">
+                name LIKE CONCAT('%', #{productSearchDto.keyword}, '%')
+            </if>
+            <if test="productSearchDto.type == 'content'">
+                content LIKE CONCAT('%', #{productSearchDto.keyword}, '%')
+            </if>
+        </where>
+    </select>
+
+    <!-- 페이징 상품 조회 -->
+    <select id="searchProducts" resultType="ProductResponse">
+        SELECT *
+        FROM product
+        <where>
+            <if test="productSearchDto.type == 'name'">
+                name LIKE CONCAT('%', #{productSearchDto.keyword}, '%')
+            </if>
+            <if test="productSearchDto.type == 'content'">
+                content LIKE CONCAT('%', #{productSearchDto.keyword}, '%')
+            </if>
+        </where>
+        ORDER BY upload_date <!-- Replace with your desired sorting column -->
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
 </mapper>

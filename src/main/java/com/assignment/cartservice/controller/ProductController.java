@@ -6,7 +6,6 @@ import com.assignment.cartservice.dto.response.ProductResponse;
 import com.assignment.cartservice.dto.response.ResultResponse;
 import com.assignment.cartservice.entity.User.CustomUserDetails;
 import com.assignment.cartservice.service.ProductService;
-import com.assignment.cartservice.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +19,13 @@ public class ProductController {
 
     private final ProductService productService;
 
-/*    @PostMapping("")
+    /*
+    @PostMapping("")
     public List<ProductDto> productDtoList() {
 
         return me;
-    }*/
+    }
+    */
 
     @PostMapping("")
     public ResponseEntity<ResultResponse> save(@LoginUser CustomUserDetails customUserDetails, @RequestBody ProductDto productDto) {

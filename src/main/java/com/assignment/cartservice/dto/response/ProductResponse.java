@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class ProductResponse {
+
+    private int id;
+
     //등록자 이름
     private String userName;
 

@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
         //이메일 중복 검사
         validateEmailNotExist(userInfo.getEmail());
 
-        int generatedId = userMapper.save(
+        int result = userMapper.save(
                 UserInfo.builder()
                         .email(userInfo.getEmail())
                         .password(userInfo.getPassword())
@@ -45,11 +45,11 @@ public class UserServiceImpl implements UserService {
                         .build()
         );
 
-        if (generatedId == 0) {
+        if (result == 0) {
             throw new CustomException(ErrorCode.USER_REGISTER_ERROR);
         }
 
-        return generatedId;
+        return result;
     }
 
 

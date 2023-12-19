@@ -4,20 +4,25 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.assignment.cartservice.mapper.ProductMapper">
 
-    <!-- 게시글 저장 -->
+    <!-- 상품 저장 -->
     <insert id="save" parameterType="ProductDto">
         INSERT
-          INTO product( userInfo_id, name, price, content, stock, upload_date )
-        VALUES ( #{productDto.userInfoId}, #{productDto.name}, #{productDto.price}, #{productDto.content}, #{productDto.stock}, now() )
+        INTO product( userInfo_id, name, price, content, stock, upload_date )
+            VALUES ( #{productDto.userInfoId}, #{productDto.name}, #{productDto.price}, #{productDto.content}, #{productDto.stock}, now() )
     </insert>
 
-
-
-    <!-- 게시글 수 카운팅 -->
+    <!-- 전체 상품 조회 -->
     <select id="productAll" resultType="ProductResponse">
-        SELECT u.name as 'username', p.name, p.price, p.content, p.stock, p.upload_date
+        SELECT p.id, u.name as 'username', p.name, p.price, p.content, p.stock, p.upload_date
         FROM product p
-        INNER JOIN userInfo u
-        ON p.userInfo_id = u.id
+            INNER JOIN userInfo u ON p.userInfo_id = u.id
+    </select>
+
+    <!-- 아이디로 상품 조회  -->
+    <select id="findById" resultType="ProductResponse" parameterType="int">
+        SELECT p.id, u.name as 'username', p.name, p.price, p.content, p.stock, p.upload_date
+        FROM product p
+                 INNER JOIN userInfo u ON p.userInfo_id = u.id
+        where p.id = #{id}
     </select>
 </mapper>

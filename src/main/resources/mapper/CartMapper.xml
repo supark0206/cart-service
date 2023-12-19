@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.assignment.cartservice.mapper.CartMapper">
+
+    <!-- 장바구니 저장 -->
+    <insert id="save" parameterType="CartDto">
+        INSERT
+        INTO cart( userInfo_id, product_id, stock)
+        VALUES ( #{cartDto.userInfoId}, #{cartDto.productId}, #{cartDto.stock} )
+    </insert>
+
+    <select id="cartAll" resultType="CartResponse" parameterType="String">
+        SELECT c.id, p.name, p.price, c.stock, p.price * c.stock as 'allPrice'
+        FROM cart c
+                 INNER JOIN product p ON p.id = c.product_id
+                 INNER JOIN userInfo u ON p.userInfo_id = u.id
+        WHERE u.email = #{email}
+    </select>
+
+</mapper>

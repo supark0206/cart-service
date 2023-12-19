@@ -44,7 +44,8 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponse(
+                .body(
+                        new ErrorResponse(
                         400,
                         e.getObjectName(),
                         "BAD_REQUEST_JOIN_"+objectError.getCode().toUpperCase(),
@@ -57,22 +58,21 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException e) {
         log.error("handleAuthenticationException : {}",e.getMessage());
 
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.UNAUTHORIZED.value(),
-                "Authentication Error",
-                e.getClass().getSimpleName(),
-                e.getMessage()
-        );
-
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
-                .body(errorResponse);
+                .body(
+                        new ErrorResponse(
+                        HttpStatus.UNAUTHORIZED.value(),
+                        "Authentication Error",
+                        e.getClass().getSimpleName(),
+                        e.getMessage())
+                );
     }
 
-    //500 Exception
+    // 500 Exception
     @ExceptionHandler(Exception.class)
-    protected ResponseEntity<ErrorResponse> handleException(final CustomException e) {
-        log.error("handleException : {}",e.getMessage());
+    protected ResponseEntity<ErrorResponse> handleException(final Exception e) {
+        log.error("handleException : {}", e.getMessage());
         return ResponseEntity
                 .status(ErrorCode.INTERNAL_SERVER_ERROR.getStatus().value())
                 .body(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR));

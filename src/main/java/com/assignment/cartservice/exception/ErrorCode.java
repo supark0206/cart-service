@@ -13,6 +13,7 @@ public enum ErrorCode {
     EMAIL_SEND_ERROR(HttpStatus.BAD_REQUEST,"이메일을 전송할 수 없습니다."),
     EMAIL_FORMAT_ERROR(HttpStatus.BAD_REQUEST, "이메일 주소 형식이 유효하지 않습니다."),
     EMAIL_CODE_CHECK_ERROR(HttpStatus.BAD_REQUEST, "인증 코드가 틀렸습니다."),
+    USER_REGISTER_ERROR(HttpStatus.BAD_REQUEST, "회원가입에 실패하였습니다."),
     
     //404 NOT_FOUND : 리소스를 찾을 수 없음
     NOT_FOUND(HttpStatus.NOT_FOUND, "리소스를 찾을 수 없습니다."),

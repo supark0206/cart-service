@@ -7,12 +7,20 @@
     <select id="findByEmail" resultType="UserInfo" parameterType="String">
         SELECT *
           FROM userInfo
-         WHERE userInfo_email = #{email}
+         WHERE email = #{email}
     </select>
+
+    <select id="countEmail" resultType="int" parameterType="String">
+        SELECT count(*)
+          FROM userInfo
+         WHERE email = #{email}
+    </select>
+
 
     <insert id="save" parameterType="UserInfo">
         INSERT
-          INTO userInfo(userInfo_email, userInfo_password, userInfo_name, userInfo_role)
+          INTO userInfo(email, password, name, role)
         VALUES (#{userInfo.email}, #{userInfo.password}, #{userInfo.name}, #{userInfo.role})
     </insert>
+
 </mapper>

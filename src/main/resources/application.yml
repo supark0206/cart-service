@@ -15,8 +15,9 @@ spring :
         one-indexed-parameters: true
         max-page-size: 2000
 
+
 logging.level:
-  org.hibernate.SQL: debug
+  org.apache.ibatis: debug
 # org.hibernate.type: trace
 
 jwt:

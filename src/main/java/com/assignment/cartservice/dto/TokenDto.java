@@ -1,4 +1,4 @@
-package com.assignment.cartservice.config.jwt;
+package com.assignment.cartservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -2,9 +2,8 @@ package com.assignment.cartservice.service.impl;
 
 
 import com.assignment.cartservice.config.jwt.JwtProvider;
-import com.assignment.cartservice.config.jwt.TokenDto;
+import com.assignment.cartservice.dto.TokenDto;
 import com.assignment.cartservice.dto.UserInfo;
-import com.assignment.cartservice.entity.User.CustomUserDetails;
 import com.assignment.cartservice.entity.User.UserRole;
 import com.assignment.cartservice.exception.CustomException;
 import com.assignment.cartservice.exception.ErrorCode;
@@ -14,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserDetailsServiceImpl userDetailsService;
     private final UserMapper userMapper;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtProvider jwtProvider;
@@ -36,13 +33,10 @@ public class UserServiceImpl implements UserService {
         String rawPassword = userInfo.getPassword();
         userInfo.setPassword(bCryptPasswordEncoder.encode(rawPassword));
 
-        userMapper.findByEmail(userInfo.getEmail()).ifPresent(
-                ex -> {
-                    throw new CustomException(ErrorCode.EXIST_USER_EMAIL);
-                }
-        );
+        //이메일 중복 검사
+        validateEmailNotExist(userInfo.getEmail());
 
-        return userMapper.save(
+        int generatedId = userMapper.save(
                 UserInfo.builder()
                         .email(userInfo.getEmail())
                         .password(userInfo.getPassword())
@@ -50,7 +44,14 @@ public class UserServiceImpl implements UserService {
                         .role(UserRole.ROLE_USER)
                         .build()
         );
+
+        if (generatedId == 0) {
+            throw new CustomException(ErrorCode.USER_REGISTER_ERROR);
+        }
+
+        return generatedId;
     }
+
 
     @Override
     public TokenDto login(String email, String password) {
@@ -68,5 +69,10 @@ public class UserServiceImpl implements UserService {
         return tokenDto;
     }
 
+    private void validateEmailNotExist(String email) {
+        if(userMapper.countEmail(email)>=1){
+            throw new CustomException(ErrorCode.EXIST_USER_EMAIL);
+        }
+    }
 
 }

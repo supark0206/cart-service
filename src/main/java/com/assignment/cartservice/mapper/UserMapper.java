@@ -13,6 +13,6 @@ public interface UserMapper{
 
     int countEmail(@Param("email") String email);
 
-    int save (@Param("userInfo") UserInfo userInfo);
+    int save(@Param("userInfo") UserInfo userInfo);
 
 }

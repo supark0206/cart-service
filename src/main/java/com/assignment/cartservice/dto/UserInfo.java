@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserInfo {
-    private Long id;
+    private int id;
 
     @NotBlank(message = "아이디는 필수 입력 값입니다.")
     @Email(message = "이메일 형식에 맞지 않습니다")

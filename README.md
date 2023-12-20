@@ -6,7 +6,7 @@
 3. 테스트 계정  
    - 아이디 : test@naver.com
    - 비밀번호 : test12345678@
-4.포스트맨 문서 URL : https://documenter.getpostman.com/view/17408188/2s9Ykq6fZs#cd9f2b6f-cee4-4f1b-8e5e-51c4a64ac4b8
+4. 포스트맨 문서 URL : https://documenter.getpostman.com/view/17408188/2s9Ykq6fZs#cd9f2b6f-cee4-4f1b-8e5e-51c4a64ac4b8
 <br><br>
 
 ### 데이터베이스 테이블 구조

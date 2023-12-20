@@ -17,7 +17,7 @@ public enum ErrorCode {
     CART_SAVE_ERROR(HttpStatus.BAD_REQUEST, "장바구니 등록에 실패하였습니다."),
     CART_STOCK_ERROR(HttpStatus.BAD_REQUEST, "담을 수 있는 개수를 초과했습니다."),
     CART_DELETE_ERROR(HttpStatus.BAD_REQUEST, "장바구니 상품 삭제에 실패하였습니다."),
-    ORDER_ERROR(HttpStatus.BAD_REQUEST, "장바구니 상품 삭제에 실패하였습니다."),
+    ORDER_ERROR(HttpStatus.BAD_REQUEST, "주문에 실패하였습니다."),
     PRODUCT_OUT_OF_STOCK_ERROR(HttpStatus.BAD_REQUEST, "상품 재고가 부족합니다."),
 
 

@@ -33,8 +33,8 @@ public class WebSecurityConfig {
                 // 페이지 권한 설정
                 .authorizeHttpRequests(authorize ->
                         authorize
-                                .requestMatchers("/api/admin/**").authenticated()
-                                .requestMatchers("/api/**").permitAll()
+                                .requestMatchers("/api/**").authenticated()
+                                .requestMatchers("/api/join","/api/login").permitAll()
                                 .anyRequest().permitAll()
                 )
 

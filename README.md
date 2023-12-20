@@ -291,37 +291,116 @@
 
 <br/> <br/> <br/>
 
+
 - **상품 주문 [POST]http://3.35.92.167:8080/api/order**
-  - 장바구니에 담은 상품을 구매합니다
+  - 장바구니에 담은 상품을 구매합니다.
+  - cartId 장바구니 번호와 quantity 수량을 받습니다.
+  - 주문하면 장바구니에서 사라지고 주문한 수량만큼 상품의 재고가 감소합니다.
+  - 수량을 받는 이유는 장바구니 목록이 뿌려져있어도 수량은 프론트에서 언제든 변할수있는 숫자이기 때문입니다.
+
+- request
+```json
+[
+  {
+    "cartId": 22,
+    "quantity": 3
+  } ,
+  {
+    "cartId": 23,
+    "quantity": 1
+  } ,
+  {
+    "cartId": 24,
+    "quantity": 5
+  }
+]
+
+```
+
+
+- response
+
+```json
+{
+  "id": 3,
+  "message": "3 개의 상품 주문에 성공하였습니다."
+}
+```
+
+
+```json
+{
+  "status": 400,
+  "error": "BAD_REQUEST",
+  "code": "PRODUCT_OUT_OF_STOCK_ERROR",
+  "message": "상품 재고가 부족합니다."
+}
+```
+
+```json
+{
+  "status": 400,
+  "error": "BAD_REQUEST",
+  "code": "CART_EXIST_ERROR",
+  "message": "장바구니에 상품이 존재하지 않습니다."
+}
+```
+
+<br/> <br/> <br/>
+
+
+
+- **주문 조회 [GET]http://3.35.92.167:8080/api/order**
 
 - response
 ```json
 [
   {
-    "id": 18,
-    "productId": 4,
-    "name": "상품명3",
-    "price": 10000,
-    "stock": 10,
-    "totalPrice": 100000
+    "orderResponse": {
+      "ordersId": 66,
+      "totalOrderCnt": 3,
+      "totalPriceSum": 90000,
+      "orderDate": "2023-12-20T17:38:55"
+    },
+    "orderDetailResponseList": [
+      {
+        "productId": 2,
+        "productName": "상품명1",
+        "quantity": 3,
+        "orderPrice": 30000
+      },
+      {
+        "productId": 4,
+        "productName": "상품명3",
+        "quantity": 1,
+        "orderPrice": 10000
+      },
+      {
+        "productId": 5,
+        "productName": "상품명3",
+        "quantity": 5,
+        "orderPrice": 50000
+      }
+    ]
   },
   {
-    "id": 19,
-    "productId": 5,
-    "name": "상품명3",
-    "price": 10000,
-    "stock": 10,
-    "totalPrice": 100000
-  },
-  {
-    "id": 20,
-    "productId": 8,
-    "name": "낚시대",
-    "price": 10000,
-    "stock": 5,
-    "totalPrice": 50000
+    "orderResponse": {
+      "ordersId": 67,
+      "totalOrderCnt": 1,
+      "totalPriceSum": 30000,
+      "orderDate": "2023-12-20T17:42:00"
+    },
+    "orderDetailResponseList": [
+      {
+        "productId": 7,
+        "productName": "낚시대",
+        "quantity": 3,
+        "orderPrice": 30000
+      }
+    ]
   }
 ]
 ```
+
 
 <br/> <br/> <br/>

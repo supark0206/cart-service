@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface CartMapper {
@@ -27,5 +28,9 @@ public interface CartMapper {
 
     //장바구니 전체 삭제
     int deleteAll(@Param("userInfoId") int userInfoId);
+
+    //장바구니 상품 아이디 조회
+    Optional<CartResponse> findByCartId(@Param("cartId") int cartId, @Param("userInfoId") int userInfoId);
+
 
 }

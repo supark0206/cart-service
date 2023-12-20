@@ -2,6 +2,7 @@ package com.assignment.cartservice.service.impl;
 
 import com.assignment.cartservice.dto.OrderDetailDto;
 import com.assignment.cartservice.dto.OrderDto;
+import com.assignment.cartservice.dto.response.CartResponse;
 import com.assignment.cartservice.dto.response.OrderDetailResponse;
 import com.assignment.cartservice.dto.response.OrderResponse;
 import com.assignment.cartservice.dto.response.OrderTotalResponse;
@@ -41,16 +42,17 @@ public class OrderServiceImpl implements OrderService {
 
         orderDetailDtoList.forEach(
                 orderDetailDto -> {
-                    int productId = orderDetailDto.getProductId();
+                    
+                    int productId = getCartResponse(orderDetailDto, userInfoId).getProductId();
+                    int productStock = getCartResponse(orderDetailDto, userInfoId).getStock();
                     int productPrice = productMapper.selectProductPrice(productId);
                     int quantity = orderDetailDto.getQuantity();
                     int orderPrice = productPrice * quantity;
 
-                    int result = productMapper.updateStock(productId,quantity);
-                    if(result == 0){
-                        throw new CustomException(ErrorCode.PRODUCT_OUT_OF_STOCK_ERROR);
-                    }
 
+                    productStockUpdate(productId, productStock, quantity);
+
+                    orderDetailDto.setProductId(productId);
                     orderDetailDto.setOrdersId(orderDto.getOrdersId());
                     orderDetailDto.setOrderPrice(orderPrice);
                 }
@@ -59,12 +61,15 @@ public class OrderServiceImpl implements OrderService {
         //주문
         int result = saveOrderDetails(orderDetailDtoList);
 
-        //주문후 장바구니 삭제
+        //장바구니 삭제
         deleteCartAfterOrder(userInfoId, orderDetailDtoList);
 
         return result;
 
     }
+
+
+
 
     @Override
     public List<OrderTotalResponse> orderResponseList(CustomUserDetails customUserDetails) {
@@ -84,6 +89,23 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return orderTotalResponses;
+    }
+
+    //cart id 로 상품 조회 , 장바구니에 존재하는 상품인지 체크
+    private CartResponse getCartResponse(OrderDetailDto orderDetailDto, int userInfoId) {
+
+        return cartMapper.findByCartId(orderDetailDto.getCartId(), userInfoId).orElseThrow(
+                () ->  new CustomException(ErrorCode.CART_EXIST_ERROR)
+        );
+
+    }
+
+    //주문시 재고 변경
+    private void productStockUpdate(int productId, int productStock, int quantity) {
+        if(productStock < quantity){
+            throw new CustomException(ErrorCode.PRODUCT_OUT_OF_STOCK_ERROR);
+        }
+        productMapper.updateStock(productId, quantity);
     }
 
     private void deleteCartAfterOrder(int userInfoId, List<OrderDetailDto> orderDetailDtoList) {

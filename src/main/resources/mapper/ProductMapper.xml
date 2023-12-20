@@ -52,7 +52,7 @@
                 content LIKE CONCAT('%', #{productSearchDto.keyword}, '%')
             </if>
         </where>
-        ORDER BY upload_date <!-- Replace with your desired sorting column -->
+        ORDER BY upload_date
         LIMIT #{limit} OFFSET #{offset}
     </select>
 
@@ -67,7 +67,7 @@
     <update id="updateStock" parameterType="int">
         UPDATE product
         SET stock = stock - #{stock}
-        WHERE id = #{productId} AND stock - #{stock} > 0
+        WHERE id = #{productId}
     </update>
 
 </mapper>

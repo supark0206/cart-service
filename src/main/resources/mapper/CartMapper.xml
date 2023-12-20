@@ -56,4 +56,13 @@
         FROM cart
         WHERE userInfo_Id = #{userInfoId}
     </delete>
+
+    <!-- 장바구니 상품 아이디 조회-->
+    <select id="findByCartId" resultType="CartResponse" parameterType="int">
+        SELECT c.id, c.product_id as "productId", p.name, p.price, p.stock, p.price * c.stock as 'totalPrice'
+        FROM cart c
+        INNER JOIN product p ON c.product_id = p.id
+        WHERE c.id = #{cartId} and c.userInfo_id = #{userInfoId}
+    </select>
+
 </mapper>

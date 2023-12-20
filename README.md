@@ -36,8 +36,9 @@
   ```
   
   - response
-  // 이메일 형식에 맞지 않는 경우
-  ```json 
+  
+  ```json
+  // 이메일 형식에 맞지 않는 경우 
   {
       "status": 409,
       "error": "CONFLICT",
@@ -71,5 +72,66 @@
   {
       "id": 1,
       "message": "회원가입에 성공하였습니다."
+  }
+  ```
+
+- **로그인 [POST]http://3.35.92.167:8080/api/login**
+
+  - request
+  ```json
+  {   
+  "email":"test@naver.com",
+  "password":"test12345678@"
+  }
+  ```
+
+  - response
+
+  ```json
+  //로그인 성공
+  {
+  "grantType": "xxx",
+  "accessToken": "xxx",
+  "refreshToken": "xxx"
+  }
+  ```
+
+- **쇼핑목록 추가(상품 등록) [POST]http://3.35.92.167:8080/api/product**
+
+  - request
+  ```json
+  {   
+  "name":"상품명",
+  "price":10000,
+  "content":"FREE",
+  "stock":10
+  }
+  ```
+
+  - response
+  ```json
+  {
+  "id": 1,
+  "message": "상품 등록에 성공하였습니다."
+  }
+  ```
+
+- **쇼핑목록 추가(상품 등록) [POST]http://3.35.92.167:8080/api/product**
+
+  - request
+  ```json
+  {   
+  "name":"상품명",
+  "price":10000,
+  "content":"FREE",
+  "stock":10
+  }
+  ```
+
+  - response
+  ```json
+  {
+  "id": 1,
+  "message": "상품 등록에 성공하였습니다."
   }
   ```

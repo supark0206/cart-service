@@ -31,9 +31,9 @@ public class ProductController {
         return ResponseEntity.ok(new ResultResponse(result,message));
     }
 
-    @GetMapping("")
-    public ProductPage productSearchPage(@RequestParam int pageNum, @RequestParam int pageSize,
-                                         @RequestParam String type, @RequestParam String keyword) {
+    @GetMapping("/{pageNum}/{pageSize}/{type}/{keyword}")
+    public ProductPage productSearchPage(@PathVariable int pageNum, @PathVariable int pageSize,
+                                         @PathVariable String type, @PathVariable String keyword) {
 
         ProductSearchDto productSearchDto =
                 ProductSearchDto.builder()

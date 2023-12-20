@@ -9,6 +9,9 @@ public class CartResponse {
 
     private int id;
 
+    //상품번호
+    private int productId;
+
     //상품명
     private String name;
 

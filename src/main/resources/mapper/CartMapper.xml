@@ -32,7 +32,7 @@
 
     <!-- 장바구니 전체 조회 -->
     <select id="cartAll" resultType="CartResponse" parameterType="String">
-        SELECT c.id, p.name, p.price, c.stock, p.price * c.stock as 'totalPrice'
+        SELECT c.id, p.id as 'productId', p.name, p.price, c.stock, p.price * c.stock as 'totalPrice'
         FROM cart c
                  INNER JOIN product p ON p.id = c.product_id
                  INNER JOIN userInfo u ON p.userInfo_id = u.id

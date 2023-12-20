@@ -29,4 +29,7 @@ public interface ProductMapper {
     //상품 가격 조회
     int selectProductPrice(@Param("productId") int productId);
 
+    //주문한 수량만큼 상품 재고 변경
+    int updateStock(@Param("productId") int productId, @Param("stock") int stock);
+
 }

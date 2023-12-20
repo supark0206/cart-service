@@ -63,4 +63,11 @@
         WHERE id = #{productId}
     </select>
 
+    <!-- 주문시 수량 변경 -->
+    <update id="updateStock" parameterType="int">
+        UPDATE product
+        SET stock = stock - #{stock}
+        WHERE id = #{productId} AND stock - #{stock} > 0
+    </update>
+
 </mapper>

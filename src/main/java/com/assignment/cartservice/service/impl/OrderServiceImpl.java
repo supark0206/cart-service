@@ -43,7 +43,13 @@ public class OrderServiceImpl implements OrderService {
                 orderDetailDto -> {
                     int productId = orderDetailDto.getProductId();
                     int productPrice = productMapper.selectProductPrice(productId);
-                    int orderPrice = productPrice * orderDetailDto.getQuantity();
+                    int quantity = orderDetailDto.getQuantity();
+                    int orderPrice = productPrice * quantity;
+
+                    int result = productMapper.updateStock(productId,quantity);
+                    if(result == 0){
+                        throw new CustomException(ErrorCode.PRODUCT_OUT_OF_STOCK_ERROR);
+                    }
 
                     orderDetailDto.setOrdersId(orderDto.getOrdersId());
                     orderDetailDto.setOrderPrice(orderPrice);

@@ -13,8 +13,10 @@ public interface CartMapper {
     //장바구니 등록
     int save(@Param("cartDto") CartDto cartDto);
 
-    int update(@Param("cartDto") CartDto cartDto);
+    //장바구니 수량 수정
+    int updateStock(@Param("cartDto") CartDto cartDto);
 
+    //장바구니 상품 조회
     int findByUserInfoAndProduct(@Param("cartDto") CartDto cartDto);
 
     //장바구니 전체 조회

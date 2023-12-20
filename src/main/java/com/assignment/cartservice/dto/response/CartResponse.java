@@ -19,6 +19,6 @@ public class CartResponse {
     private int stock;
 
     //전체가격
-    private int allPrice;
+    private int totalPrice;
 
 }

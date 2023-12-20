@@ -17,9 +17,10 @@ spring :
 
 
 logging.level:
-  org.apache.ibatis: debug
-  com.cartservice: debug
-  jdbc.sqlonly: info
+  org.apache.ibatis: DEBUG
+  org.mybatis.spring: DEBUG
+  com.cartservice.mapper: DEBUG
+  jdbc.sqlonly: DEBUG
 
 
 jwt:

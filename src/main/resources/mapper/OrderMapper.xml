@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.assignment.cartservice.mapper.OrderMapper">
+
+
+    <!-- 주문 저장 -->
+    <insert id="saveOrder" parameterType="OrderDto" useGeneratedKeys="true" keyProperty="ordersId" keyColumn="id">
+        INSERT INTO orders(userInfo_id, orderDate)
+        VALUES (#{orderDto.userInfoId}, now());
+    </insert>
+
+    <!-- 주문 상세 저장 -->
+    <insert id="saveDetails">
+        INSERT INTO
+            orders_detail(orders_id, product_id, quantity, orderPrice) VALUES
+        <foreach collection="orderDetailDtoList" item="detail" separator=",">
+             (#{detail.ordersId}, #{detail.productId}, #{detail.quantity}, #{detail.orderPrice})
+        </foreach>
+    </insert>
+
+    <!-- 주문 조회 -->
+    <select id="selectOrderResponse" resultType="OrderResponse">
+        SELECT o.id AS 'ordersId',
+               SUM(od.orderPrice) AS 'totalPriceSum',
+               COUNT(od.id) AS 'totalOrderCnt',
+               o.orderDate AS 'orderDate'
+        FROM orders_detail od
+                 INNER JOIN orders o ON o.id = od.orders_id
+                 INNER JOIN userInfo u ON o.userInfo_id = u.id
+        WHERE o.userInfo_id = #{userInfoId}
+        GROUP BY o.id
+    </select>
+
+    <!-- 주문 상세 조회 -->
+    <select id="selectOrderDetailResponse" resultType="OrderDetailResponse">
+        SELECT od.product_id AS 'productId',
+               p.name AS 'productName',
+               od.quantity AS 'quantity',
+               p.price * od.quantity AS 'orderPrice'
+        FROM orders_detail od
+                 INNER JOIN orders o ON o.id = od.orders_id
+                 INNER JOIN userInfo u ON o.userInfo_id = u.id
+                 INNER JOIN product p ON od.product_id = p.id
+        WHERE u.id =  #{userInfoId} AND od.orders_id = #{ordersId}
+    </select>
+
+</mapper>

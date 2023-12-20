@@ -14,8 +14,8 @@
         VALUES ( #{cartDto.userInfoId}, #{cartDto.productId}, #{cartDto.stock} )
     </insert>
 
-    <!-- 장바구니 수정 -->
-    <update id="update" parameterType="CartDto">
+    <!-- 장바구니 수량 수정 -->
+    <update id="updateStock" parameterType="CartDto">
         UPDATE cart
         SET stock = stock + #{cartDto.stock}
         WHERE userInfo_id = #{cartDto.userInfoId}
@@ -32,7 +32,7 @@
 
     <!-- 장바구니 전체 조회 -->
     <select id="cartAll" resultType="CartResponse" parameterType="String">
-        SELECT c.id, p.name, p.price, c.stock, p.price * c.stock as 'allPrice'
+        SELECT c.id, p.name, p.price, c.stock, p.price * c.stock as 'totalPrice'
         FROM cart c
                  INNER JOIN product p ON p.id = c.product_id
                  INNER JOIN userInfo u ON p.userInfo_id = u.id

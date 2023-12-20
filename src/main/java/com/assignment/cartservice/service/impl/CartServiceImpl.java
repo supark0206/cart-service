@@ -37,7 +37,7 @@ public class CartServiceImpl implements CartService {
         if (cartMapper.findByUserInfoAndProduct(cartDto) == 0) {
             result = cartMapper.save(cartDto);
         } else {
-            result = cartMapper.update(cartDto);
+            result = cartMapper.updateStock(cartDto);
         }
 
         if (result == 0) {

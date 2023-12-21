@@ -9,10 +9,11 @@
 4. 포스트맨 문서 URL : https://documenter.getpostman.com/view/17408188/2s9Ykq6fZs#cd9f2b6f-cee4-4f1b-8e5e-51c4a64ac4b8
 <br><br>
 
-### CI/CD
+### Architecture & CI/CD 
 
 ---
-![image](https://github.com/supark0206/cart-service/assets/71696834/453a9115-a727-41c3-b6b9-292bc2bcb04e)
+![image](https://github.com/supark0206/cart-service/assets/71696834/0eb28788-e41e-4f39-9486-c601b62ca6c7)
+
 
 
 
